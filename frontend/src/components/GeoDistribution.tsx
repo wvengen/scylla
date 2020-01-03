@@ -1,6 +1,8 @@
 import * as React from 'react';
 import axios from "axios";
 import {getBaseURL, Proxy, ResponseJSON} from "../utils";
+import * as queryString from "query-string";
+import ProxyListFilter from "./ProxyListFilter";
 import ReactTooltip from "react-tooltip"
 
 const {
@@ -29,7 +31,11 @@ export default class GeoDistribution extends React.Component<GeoDistributionProp
     }
 
     componentDidMount() {
-        this.loadData();
+        this.loadData(this.props);
+    }
+
+    componentWillReceiveProps(nextProp: any) {
+        this.loadData(nextProp)
     }
 
     render() {
@@ -44,6 +50,7 @@ export default class GeoDistribution extends React.Component<GeoDistributionProp
         // const position = [this.state.lat, this.state.lng];
         return (
             <div>
+                <ProxyListFilter path='/geo' location={this.props.location}/>
                 <ComposableMap style={{width: "100%"}}>
                     <ZoomableGroup>
                         <Geographies
@@ -99,11 +106,11 @@ export default class GeoDistribution extends React.Component<GeoDistributionProp
                         pressed: {fill: "#000"},
                     }}
                 >
-                    <circle data-html={true} data-tip={ proxy.ip + ":" + proxy.port + "<br>" + 
-                                                        proxy.country + ", " + proxy.city + "<br>" + 
-                                                        "latency: " + proxy.latency + "<br>" + 
-                                                        "anonymous: " + proxy.is_anonymous + "<br>" + 
-                                                        "https: " + proxy.is_https } 
+                    <circle data-html={true} data-tip={ proxy.ip + ":" + proxy.port + "<br>" +
+                                                        proxy.country + ", " + proxy.city + "<br>" +
+                                                        "latency: " + proxy.latency + "<br>" +
+                                                        "anonymous: " + proxy.is_anonymous + "<br>" +
+                                                        "https: " + proxy.is_https }
                                                         cx={0} cy={0} r={2}/>
                 </Marker>
             );
@@ -124,8 +131,23 @@ export default class GeoDistribution extends React.Component<GeoDistributionProp
         }
     }
 
-    async loadData() {
-        const response = await axios.get(`${getBaseURL()}/api/v1/proxies?limit=4095`);
+    async loadData(props: any) {
+        const parsed = queryString.parse(props.location.search);
+
+        const https = parsed['https'] || null;
+        const anonymous = parsed['anonymous'] || null;
+
+        const params: any = { 'limit': 4095 };
+
+        if (https) {
+            params['https'] = https;
+        }
+
+        if (anonymous) {
+            params['anonymous'] = anonymous;
+        }
+
+        const response = await axios.get(`${getBaseURL()}/api/v1/proxies?${queryString.stringify(params)}`);
         const res: ResponseJSON = response.data;
         const proxies: Proxy[] = res.proxies;
         this.setState({
@@ -133,4 +155,3 @@ export default class GeoDistribution extends React.Component<GeoDistributionProp
         });
     }
 }
-

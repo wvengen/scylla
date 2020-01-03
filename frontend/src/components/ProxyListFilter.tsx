@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import * as queryString from "query-string";
 
 export interface ProxyListFilterProps {
+    path: string;
     location: any;
 }
 
@@ -62,7 +63,7 @@ export default class ProxyListFilter extends React.Component<ProxyListFilterProp
         }
 
 
-        return `/?${queryString.stringify(params)}`;
+        return `${this.props.path}?${queryString.stringify(params)}`;
     }
 
 

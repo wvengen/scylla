@@ -49,7 +49,7 @@ export default class ProxyIPList extends React.Component<Props, AppState> {
         const list = this.state.proxies;
         return (
             <div>
-                <ProxyListFilter location={this.props.location}/>
+                <ProxyListFilter path='/' location={this.props.location}/>
                 <table>
                     <thead>
                     <tr>
