@@ -8,12 +8,12 @@ from scylla.validation_policy import ValidationPolicy
 
 @pytest.fixture
 def p():
-    return ProxyIP(ip='127.0.0.1', port=3306, is_valid=False)
+    return ProxyIP(ip='127.0.0.1', port=3306, provider='Foo', is_valid=False)
 
 
 @pytest.fixture
 def valid_http_proxy():
-    return ProxyIP(ip='127.0.0.1', port=3306, is_valid=True)
+    return ProxyIP(ip='127.0.0.1', port=3306, provider='Foo', is_valid=True)
 
 
 # test should_validate()

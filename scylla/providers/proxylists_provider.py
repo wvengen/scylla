@@ -22,7 +22,8 @@ class ProxylistsProvider(BaseProvider):
             if ip_element and port_element:
                 ip = re.search(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', ip_element.text).group(0)
                 port = re.search(r'\d{2,5}', port_element.text).group(0)
-                ip_list.append(ProxyIP(ip=ip, port=port))
+                proxy = ProxyIP(ip=ip, port=port, provider=self.__class__.__name__)
+                ip_list.append(proxy)
 
         return ip_list
 

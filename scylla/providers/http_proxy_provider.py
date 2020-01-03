@@ -20,7 +20,7 @@ class HttpProxyProvider(BaseProvider):
                 if ip_element and port_element:
                     port_str = re.search(r'//]]> (\d+)', port_element.text).group(1)
 
-                    p = ProxyIP(ip=ip_element.text, port=port_str)
+                    p = ProxyIP(ip=ip_element.text, port=port_str, provider=self.__class__.__name__)
 
                     ip_list.append(p)
             except AttributeError:

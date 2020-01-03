@@ -34,7 +34,8 @@ def populate_proxy_ips_in_db() -> [str]:
         is_https = random.choice(https)
 
         ip = ProxyIP(
-            ip=ip_str, port=3306, latency=200.00, stability=100.0, is_valid=True,
+            ip=ip_str, port=3306, provider='CoolProxy',
+            latency=200.00, stability=100.0, is_valid=True,
             country=country, is_anonymous=is_anonymous, is_https=is_https,
         )
         ip.save()
@@ -202,6 +203,18 @@ async def test_get_proxies_page_invalid(test_cli):
 
     delete_test_ip(ip_str)
 
+async def test_get_providers(test_cli):
+    ip_str = create_test_ip()
+
+    resp = await test_cli.get('/api/v1/providers')
+    assert resp.status == 200
+
+    resp_json = await resp.json()
+
+    providers = resp_json['providers']
+    assert len(providers) > 0
+
+    delete_test_ip(ip_str)
 
 async def test_get_stats(test_cli):
     ip_str = create_test_ip()

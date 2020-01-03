@@ -25,7 +25,8 @@ class ProxyNovaProvider(BaseProvider):
                 continue
             ip = groups[0][0] + groups[0][1]
             port = port_element.text
-            ip_list.append(ProxyIP(ip=ip, port=port))
+            proxy = ProxyIP(ip=ip, port=port, provider=self.__class__.__name__)
+            ip_list.append(proxy)
         return ip_list
 
     def urls(self) -> [str]:

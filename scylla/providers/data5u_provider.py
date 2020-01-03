@@ -20,7 +20,7 @@ class Data5uProvider(BaseProvider):
             port_element = ip_row.find('span:nth-child(2)', first=True)
 
             if ip_element and port_element:
-                p = ProxyIP(ip=ip_element.text, port=port_element.text)
+                p = ProxyIP(ip=ip_element.text, port=port_element.text, provider=self.__class__.__name__)
                 ip_list.append(p)
 
         return ip_list

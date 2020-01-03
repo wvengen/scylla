@@ -140,6 +140,26 @@ Sample result:
 }
 ```
 
+#### Providers
+
+```bash
+http://localhost:8899/api/v1/providers
+```
+
+Sample result:
+
+```json
+[
+  {
+    "name":"A2u",
+    "ips_available": 6,
+    "ips_valid": 5,
+    "updated_at": 1578041148
+  },
+  ...
+]
+```
+
 #### System Statistics
 
 ```bash
@@ -202,6 +222,18 @@ http://localhost:8899/#/geo
 Screenshot:
 
 ![screenshot-geo-distribution](https://user-images.githubusercontent.com/2396817/40653599-9458b6b8-6333-11e8-8e6e-1d90271fc083.png)
+
+#### Provider list
+
+```
+http://localhost:8899/#/providers
+```
+
+#### System statistics
+
+```
+http://localhost:8899/#/stats
+```
 
 API Documentation
 =================

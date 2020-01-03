@@ -44,6 +44,7 @@ class ProxyIP(BaseModel):
 
     ip = CharField()
     port = IntegerField()
+    provider = CharField(null=True)
     is_valid = BooleanField(default=False)
     created_at = DateTimeField(default=datetime.datetime.now)
     updated_at = DateTimeField(default=datetime.datetime.now)
@@ -62,6 +63,7 @@ class ProxyIP(BaseModel):
     def assign_from(self, p):
         self.ip = p.ip
         self.port = p.port
+        self.provider = p.provider
         self.is_valid = p.is_valid
         self.latency = p.latency
         self.stability = p.stability
@@ -79,8 +81,8 @@ class ProxyIP(BaseModel):
         self.updated_at = datetime.datetime.now()
 
     def __str__(self):
-        return '[database.ProxyIP ip: {}, port: {}, is_valid: {}, latency: {}]' \
-            .format(self.ip, self.port, self.is_valid, self.latency)
+        return '[database.ProxyIP provider: {}, ip: {}, port: {}, is_valid: {}, latency: {}]' \
+            .format(self.provider, self.ip, self.port, self.is_valid, self.latency)
 
     def __repr__(self):
         return self.__str__()
