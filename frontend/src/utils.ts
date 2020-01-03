@@ -27,6 +27,12 @@ export interface Proxy {
     city: string;
 }
 
+export interface Provider {
+    name: string;
+    ips_available: number;
+    ips_valid: number;
+}
+
 export interface ResponseJSON {
     proxies: Proxy[];
     count: number;
@@ -40,4 +46,8 @@ export interface StatsResponseJSON {
     median: number;
     total_count: number;
     valid_count: number;
+}
+
+export interface ProvidersResponseJSON {
+    providers: Provider[];
 }

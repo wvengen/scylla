@@ -26,7 +26,7 @@ class PlainTextProvider(BaseProvider):
             port = re.search(r':(\d{2,5})', ip_port).group(1)
 
             if ip and port:
-                p = ProxyIP(ip=ip, port=port)
+                p = ProxyIP(ip=ip, port=port, provider=self.__class__.__name__)
                 ip_list.append(p)
 
         return ip_list

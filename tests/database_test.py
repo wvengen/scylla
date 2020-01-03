@@ -21,7 +21,7 @@ def gen_random_ip() -> str:
 
 def create_test_ip() -> str:
     ip_str = gen_random_ip()
-    ip = ProxyIP(ip=ip_str, port=3306, latency=200.00, stability=100.0, is_valid=True)
+    ip = ProxyIP(ip=ip_str, port=3306, provider='Foo', latency=200.00, stability=100.0, is_valid=True)
     ip.save()
     return ip_str
 
@@ -60,7 +60,7 @@ def test_delete_ip():
 
 def test_create_ip_floor_latency():
     ip_str = gen_random_ip()
-    ip = ProxyIP(ip=ip_str, port=3306, latency=100.66, stability=100.0, is_valid=True)
+    ip = ProxyIP(ip=ip_str, port=3306, provider='Foo', latency=100.66, stability=100.0, is_valid=True)
     ip.save()
 
     assert ip.latency == 100.0

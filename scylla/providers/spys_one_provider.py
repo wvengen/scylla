@@ -28,7 +28,7 @@ class SpysOneProvider(BaseProvider):
                 port = re.search(r':\n(\d{2,5})', ip_port_text).group(1)
 
                 if ip and port:
-                    p = ProxyIP(ip=ip, port=port)
+                    p = ProxyIP(ip=ip, port=port, provider=self.__class__.__name__)
                     ip_list.append(p)
 
         return ip_list

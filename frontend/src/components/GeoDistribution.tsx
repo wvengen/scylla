@@ -1,6 +1,6 @@
 import * as React from 'react';
 import axios from "axios";
-import {getBaseURL, Proxy, ResponseJSON} from "../utils";
+import {getBaseURL, Proxy, Provider, ResponseJSON} from "../utils";
 import ReactTooltip from "react-tooltip"
 
 const {

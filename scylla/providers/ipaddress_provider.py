@@ -13,7 +13,7 @@ class IpaddressProvider(BaseProvider):
             ip_port = ip_row.find('td:nth-child(1)', first=True).text
             ip_address, port = ip_port.split(":")
 
-            p = ProxyIP(ip=ip_address, port=port)
+            p = ProxyIP(ip=ip_address, port=port, provider=self.__class__.__name__)
 
             ip_list.append(p)
 

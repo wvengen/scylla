@@ -20,7 +20,7 @@ class ProxyScraperProvider(BaseProvider):
             return ip_list
 
         for ip_port in obj['usproxy']:
-            p = ProxyIP(ip=ip_port['ip'], port=ip_port['port'])
+            p = ProxyIP(ip=ip_port['ip'], port=ip_port['port'], provider=self.__class__.__name__)
             ip_list.append(p)
 
         return ip_list

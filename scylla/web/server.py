@@ -9,6 +9,7 @@ from sanic_cors import CORS
 
 from scylla.database import ProxyIP
 from scylla.loggings import logger
+from scylla.providers import all_providers
 
 app = Sanic()
 
@@ -134,6 +135,44 @@ async def api_v1_stats(request: Request):
         'valid_count': valid_count,
         'total_count': total_count,
         'mean': mean,
+    })
+
+@app.route('/api/v1/providers')
+async def api_v1_providers(request: Request):
+    provider_query: ProxyIP = ProxyIP.raw("""
+                                   SELECT
+                                     provider,
+                                     is_valid,
+                                     COUNT(*) AS count,
+                                     MAX(updated_at) AS updated_at
+                                   FROM proxy_ips
+                                   GROUP BY provider, is_valid
+                                   """)
+
+    provider_list = {}
+    # add known providers to list
+    for p in all_providers:
+        name = p.__name__
+        provider_list[name] = { 'name': name.replace('Provider', ''), 'ips_available': 0, 'ips_valid': 0, 'updated_at': None }
+    # add statistics from database
+    for p in provider_query:
+        if not p.provider in provider_list:
+            # don't crash when a non-existing provider is in the database
+            name = p.provider or '(none)'
+            provider_list[p.provider] = { 'name': name, 'ips_available': 0, 'ips_valid': 0, 'updated_at': None }
+
+        last_updated = provider_list[p.provider]['updated_at']
+        if last_updated is None or last_updated < p.updated_at:
+            provider_list[p.provider]['updated_at'] = p.updated_at
+
+        if p.is_valid:
+            provider_list[p.provider]['ips_valid'] += p.count
+            provider_list[p.provider]['ips_available'] += p.count
+        else:
+            provider_list[p.provider]['ips_available'] += p.count
+
+    return json({
+        'providers': provider_list.values()
     })
 
 

@@ -7,6 +7,7 @@ import ScyllaBannerImage from './images/scylla_banner.png';
 
 import ProxyIPList from "./components/ProxyList";
 import GeoDistribution from "./components/GeoDistribution";
+import Providers from "./components/Providers";
 import Statistics from "./components/Statistics";
 
 
@@ -19,11 +20,13 @@ const AppRoute = () => (
             <ul className="navigation">
                 <li><NavLink exact={true} to="/">Proxy IP List</NavLink></li>
                 <li><NavLink to="/geo">Geometric Distribution</NavLink></li>
+                <li><NavLink to="/providers">Providers</NavLink></li>
                 <li><NavLink to="/stats">Statistics</NavLink></li>
             </ul>
 
             <Route exact path="/" component={ProxyIPList} />
             <Route path="/geo" component={GeoDistribution} />
+            <Route path="/providers" component={Providers} />
             <Route path="/stats" component={Statistics} />
             <footer>
                 <div>

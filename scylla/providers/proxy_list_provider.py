@@ -27,7 +27,8 @@ class ProxyListProvider(BaseProvider):
                 ip_port = base64.b64decode(encoded).decode("utf-8")
                 ip = re.findall(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', ip_port)[0]
                 port = re.findall(r':(\d{2,5})', ip_port)[0]
-                ip_list.append(ProxyIP(ip=ip, port=port))
+                proxy = ProxyIP(ip=ip, port=port, provider=self.__class__.__name__)
+                ip_list.append(proxy)
 
         return ip_list
 
